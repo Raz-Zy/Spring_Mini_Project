@@ -1,17 +1,14 @@
-package org.kps_group2.spring_mini_project.model.appUserModel.Request;
+package org.kps_group2.spring_mini_project.model.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUserRequest {
+public class AppUserResponseRegister {
+    private Integer userId;
     private String email;
-    private UUID password;
-    private UUID confirmPassword;
     private String profileImage;
 }

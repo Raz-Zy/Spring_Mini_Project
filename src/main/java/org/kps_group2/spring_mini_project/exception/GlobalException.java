@@ -24,6 +24,16 @@ public class GlobalException {
         return problemDetail;
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ProblemDetail handlePasswordNotMatch(BadRequestException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Bad Request");
+        return problemDetail;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleBadRequestException(MethodArgumentNotValidException ex){
         Map<String, String> errors = new HashMap<>();

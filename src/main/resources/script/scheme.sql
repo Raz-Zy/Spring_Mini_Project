@@ -7,9 +7,9 @@ CREATE TABLE users(
     profile_image VARCHAR(255)
 );
 
-CREATE TABLE opts(
+CREATE TABLE otps(
     opt_id SERIAL PRIMARY KEY,
-    opt_code INT,
+    opt_code VARCHAR,
     issued_at DATE,
     expiration DATE,
     verify BOOLEAN,

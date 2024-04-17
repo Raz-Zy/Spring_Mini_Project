@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <center style="width: 500px; margin: 0 auto;">
+        <h3 style="font-size: 20pt;">Expense Tracking Application</h3>
+        <p style="font-size: 18pt;">Before you sign in, we need to verify your identity. Enter the following code on the sign-in page.</p>
+        <center>
+            <h1 style=" padding: 15px 0; width: 200px; background-color: lightgray; " th:text="${otpCode}"></h1>
+        </center>
+        <p>Welcome to the Expense Tracking Application. Here, you can monitor your expenses and manage your budget effectively.</p>
+    </center>
+</body>
+</html>

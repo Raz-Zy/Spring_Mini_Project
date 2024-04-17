@@ -5,7 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.kps_group2.spring_mini_project.service.userService.AppUserService;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +24,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final AppUserService appUserService;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String email = null;
@@ -39,5 +40,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }}
-        filterChain.doFilter(request, response);}}
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}
