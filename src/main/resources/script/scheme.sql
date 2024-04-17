@@ -10,7 +10,7 @@ CREATE TABLE users(
 CREATE TABLE opts(
     opt_id SERIAL PRIMARY KEY,
     opt_code INT,
-    issued_at VARCHAR,
+    issued_at DATE,
     expiration DATE,
     verify BOOLEAN,
     user_id INT,
