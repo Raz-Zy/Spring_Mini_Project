@@ -1,7 +1,6 @@
 package org.kps_group2.spring_mini_project.service.expenses;
 
-import org.kps_group2.spring_mini_project.exception.NotFoundException;
-import org.kps_group2.spring_mini_project.model.Category;
+
 import org.kps_group2.spring_mini_project.model.dto.AppUser;
 import org.kps_group2.spring_mini_project.model.dto.Request.ExpenseRequest;
 import org.kps_group2.spring_mini_project.model.dto.Response.ExpenseResponse;

@@ -7,7 +7,7 @@ CREATE TABLE users(
     profile_image VARCHAR(255)
 );
 
-CREATE TABLE otps(
+CREATE TABLE opts(
     opt_id SERIAL PRIMARY KEY,
     opt_code VARCHAR,
     issued_at DATE,
