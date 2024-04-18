@@ -25,6 +25,12 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     @Override
+    public Boolean userVerifying(String email) {
+        AppUser appUser = appUserRepository.findUserByEmail(email);
+        return appUserRepository.userVerifying(appUser.getUserId());
+    }
+
+    @Override
     public Integer insertUser(AppUserRequestRegister register) {
         register.setPassword(passwordEncoder.encode(register.getPassword()));
         AppUser appUser = appUserRepository.findUserByEmail(register.getEmail());
@@ -39,4 +45,6 @@ public class AppUserServiceImpl implements AppUserService{
         AppUser appUser = appUserRepository.findUserById(userId);
         return modelMapper.map(appUser, AppUserResponseRegister.class);
     }
+
+
 }

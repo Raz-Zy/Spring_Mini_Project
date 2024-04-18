@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Component
 public class JwtService {
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; //5 hour
-    public static final String SECRET = "8575556e28a5f04d939be01c70361a197de3a0513475c64376f42ede86e9d35c";
+    public static final String SECRET = "240c536d99ad2fe712d69bab7ab473ff1d2be921e56a406eaaefd5e5b02be1569e540de198b62dc1672e2a3f9341c9d451c6bddbfccf7ddfd21096073f9e9a87";
 
     private String createToken(Map<String, Object> claim, String subject){
         return Jwts.builder()
@@ -25,7 +25,7 @@ public class JwtService {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+                .signWith(getSignKey(), SignatureAlgorithm.HS512).compact();
     }
 
     private Key getSignKey() {

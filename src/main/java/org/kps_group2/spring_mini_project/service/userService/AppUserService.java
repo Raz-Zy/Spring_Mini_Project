@@ -9,4 +9,6 @@ public interface AppUserService extends UserDetailsService {
     Integer insertUser(AppUserRequestRegister register);
 
     AppUserResponseRegister insertOTP(Otps otps);
+
+    Boolean userVerifying(String email);
 }

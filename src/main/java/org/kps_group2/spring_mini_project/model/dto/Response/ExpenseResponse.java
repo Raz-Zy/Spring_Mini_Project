@@ -1,9 +1,8 @@
-package org.kps_group2.spring_mini_project.model;
+package org.kps_group2.spring_mini_project.model.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kps_group2.spring_mini_project.model.dto.AppUser;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,12 +10,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Expense {
-    private Integer expenseId;
+public class ExpenseResponse {
+    private String expenseId;
     private Float amount;
     private String description;
     private Date datetime;
-    private Integer userId;
-    private Integer categoryId;
+    private UserResponse user;
+    private CategoryResponse category;
 }
-

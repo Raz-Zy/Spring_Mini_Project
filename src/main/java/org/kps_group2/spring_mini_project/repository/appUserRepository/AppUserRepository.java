@@ -35,4 +35,11 @@ public interface AppUserRepository {
     """)
     @ResultMap("userMapper")
     AppUser findUserById(Integer userId);
+
+    @Select("""
+        SELECT verify
+        FROM otps ot inner join public.users u on u.user_id = ot.user_id
+        WHERE ot.user_id = #{email}
+    """)
+    Boolean userVerifying(Integer email);
 }

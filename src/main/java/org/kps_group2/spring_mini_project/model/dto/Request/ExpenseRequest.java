@@ -1,22 +1,28 @@
-package org.kps_group2.spring_mini_project.model;
+package org.kps_group2.spring_mini_project.model.dto.Request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kps_group2.spring_mini_project.model.dto.AppUser;
 
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Expense {
-    private Integer expenseId;
+public class ExpenseRequest {
+    @NotNull
     private Float amount;
+
+    @NotNull
+    @NotBlank
     private String description;
+
+    @NotNull
+    @NotBlank
     private Date datetime;
-    private Integer userId;
+
+    @NotNull
     private Integer categoryId;
 }
-

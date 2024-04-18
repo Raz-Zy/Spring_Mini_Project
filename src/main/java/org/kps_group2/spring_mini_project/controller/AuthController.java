@@ -53,6 +53,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid AppUserRequestLogin appUserRequestLogin) throws Exception {
+        //check the verification of the user
+        Boolean isVerify = appUserService.userVerifying(appUserRequestLogin.getEmail());
+//        if (!isVerify){
+//            throw new BadRequestException("Your account is not verify yet");
+//        }
         authenticate(appUserRequestLogin.getEmail(), appUserRequestLogin.getPassword());
         final UserDetails userDetails = appUserService.loadUserByUsername(appUserRequestLogin.getEmail());
         final String token = jwtService.generateToken(userDetails);
