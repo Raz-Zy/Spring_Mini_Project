@@ -6,7 +6,6 @@ CREATE TABLE users(
     password VARCHAR(255),
     profile_image VARCHAR(255)
 );
-
 CREATE TABLE opts(
     opt_id SERIAL PRIMARY KEY,
     opt_code INT,

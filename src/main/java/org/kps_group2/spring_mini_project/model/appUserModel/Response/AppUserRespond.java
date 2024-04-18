@@ -1,4 +1,4 @@
-package org.kps_group2.spring_mini_project.model;
+package org.kps_group2.spring_mini_project.model.appUserModel.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class AppUserRespond {
     private Integer userId;
     private String email;
-    private Integer password;
     private String profileImage;
 }
