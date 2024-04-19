@@ -12,4 +12,12 @@ WHERE user_id = 1;
 
 SELECT user_id, email, profile_image
 FROM users
-WHERE user_id = 1
+WHERE user_id = 1;
+
+SELECT * FROM expenses;
+
+SELECT *
+FROM expenses
+ORDER BY expense_id ;
+
+

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -16,5 +17,5 @@ public class Otps {
     private LocalDateTime issuedAt;
     private LocalDateTime expiration;
     private Boolean verify;
-    private Integer userId;
+    private UUID userId;
 }

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class CategoryController {
 
     }
     @GetMapping("{id}")
-    public ResponseEntity<?> findCategoryById(@PathVariable Integer id){
+    public ResponseEntity<?> findCategoryById(@PathVariable UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ApiResponse<>(
                         "The category has been successfully founded.",
@@ -49,7 +50,7 @@ public class CategoryController {
         );
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id){
+    public ResponseEntity<?> deleteCategoryById(@PathVariable UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ApiResponse<>(
                         "The category has been successfully removed.",
@@ -59,7 +60,7 @@ public class CategoryController {
                 )
         );
     }
-    @PostMapping("post")
+    @PostMapping
     public ResponseEntity<?> insertCategory(@RequestBody @Valid CategoryRequest categoryRequest){
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ApiResponse<>(
@@ -71,7 +72,7 @@ public class CategoryController {
         );
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> UpdateCategory(@PathVariable Integer id, @RequestBody @Valid CategoryUpdateRequest categoryRequest){
+    public ResponseEntity<?> UpdateCategory(@PathVariable UUID id, @RequestBody @Valid CategoryUpdateRequest categoryRequest){
        CategoryResponse categoryResponse = categoryService.updateCategoryByID(id,categoryRequest);
        return ResponseEntity.status(HttpStatus.OK).body(
                new ApiResponse<>(

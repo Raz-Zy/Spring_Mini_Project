@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.kps_group2.spring_mini_project.exception.NotFoundException;
 import org.kps_group2.spring_mini_project.model.categorymodel.Category;
-import org.kps_group2.spring_mini_project.model.Users;
 import org.kps_group2.spring_mini_project.model.categorymodel.Response.CategoryResponse;
-import org.kps_group2.spring_mini_project.model.appUserModel.Response.AppUserRespond;
 import org.kps_group2.spring_mini_project.model.categorymodel.request.CategoryRequest;
 import org.kps_group2.spring_mini_project.model.categorymodel.request.CategoryUpdateRequest;
 import org.kps_group2.spring_mini_project.model.dto.AppUser;
@@ -16,10 +14,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Data
@@ -32,34 +30,42 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryResponse> findAllCategory(Integer offset, Integer limit) {
         offset=(offset -1 )*limit;
-        return categoryRepository.findAllCategory(offset,limit);
+        List<Category> categories = categoryRepository.findAllCategory(offset,limit);
+        List<CategoryResponse> categoryResponses = new ArrayList<>();
+        for(Category category : categories){
+            CategoryResponse categoryResponse = modelMapper.map(category, CategoryResponse.class);
+            categoryResponses.add(categoryResponse);
+        }
+        return categoryResponses;
     }
 
     @Override
-    public CategoryResponse findCategoryById(Integer id) {
+    public CategoryResponse findCategoryById(UUID id) {
         Category category= categoryRepository.findCategoryById(id);
         if(category==null){
-            throw new NotFoundException(" CategoryId "+id + " Not found");
+            throw new NotFoundException("Category with id: " + id + " doesn't exist.");
         }
         return modelMapper.map(category,CategoryResponse.class);
     }
 
     @Override
-    public CategoryResponse deleteCategoryById(Integer id) {
+    public CategoryResponse deleteCategoryById(UUID id) {
         if(categoryRepository.findCategoryById(id)==null){
-            throw new NotFoundException(" CategoryId " +id+ " Not found");
+            throw new NotFoundException("Category with id: " + id + " doesn't exist.");
         }
         categoryRepository.deleteCategoryByID(id);
         return null;
     }
 
     @Override
-    public CategoryResponse updateCategoryByID(Integer id, CategoryUpdateRequest categoryRequest) {
+    public CategoryResponse updateCategoryByID(UUID id, CategoryUpdateRequest categoryRequest) {
         Category category = categoryRepository.findCategoryById(id);
         if (category == null){
             throw new NotFoundException("Category with id: " + id + " doesn't exist.");
         }
-        return modelMapper.map(categoryRepository.updateCategoryById(id,categoryRequest),CategoryResponse.class);
+
+        Category categoryUpdated = categoryRepository.updateCategoryById(id, categoryRequest);
+        return modelMapper.map(categoryUpdated,CategoryResponse.class);
     }
 
 
@@ -68,7 +74,8 @@ public class CategoryServiceImpl implements CategoryService {
         String email = getUsernameOfCurrentUser();
         AppUser appUser = appUserRepository.findUserByEmail(email);
 
-        return categoryRepository.insertCategory(categoryRequest, appUser.getUserId());
+        Category category = categoryRepository.insertCategory(categoryRequest, appUser.getUserId());
+        return modelMapper.map(category, CategoryResponse.class);
     }
 
     String getUsernameOfCurrentUser() {
@@ -76,7 +83,4 @@ public class CategoryServiceImpl implements CategoryService {
                 .getPrincipal();
         return userDetails.getUsername();
     }
-
-
-
 }

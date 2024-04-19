@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpenseResponse {
-    private String expenseId;
+    private UUID expenseId;
     private Float amount;
     private String description;
     private Date datetime;

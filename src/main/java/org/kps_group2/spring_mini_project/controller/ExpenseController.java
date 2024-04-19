@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -25,11 +26,17 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @GetMapping
-    public ResponseEntity<?> getAllExpense(@RequestParam(defaultValue = "1") @Positive Integer offset, @RequestParam(defaultValue = "5") @Positive Integer limit) {
+    public ResponseEntity<?> getAllExpense(@RequestParam(defaultValue = "1") @Positive Integer offset,
+                                           @RequestParam(defaultValue = "5") @Positive Integer limit,
+                                           @RequestParam(defaultValue = "expense_id") String sortBy,
+                                           @RequestParam(defaultValue = "false") Boolean orderBy)
+
+    {
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ApiResponse<>(
                         "All categories have been successfully founded.",
-                        expenseService.getAllExpense(offset, limit),
+                        expenseService.getAllExpense(offset, limit, sortBy, orderBy),
                         HttpStatus.OK,
                         LocalDateTime.now()
                 )
@@ -37,7 +44,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAllExpenseById(@PathVariable Integer id){
+    public ResponseEntity<?> getAllExpenseById(@PathVariable UUID id){
         ExpenseResponse expenseResponse = expenseService.getAllExpenseById(id);
 
         return ResponseEntity.ok(expenseResponse);
@@ -54,7 +61,31 @@ public class ExpenseController {
                         LocalDateTime.now()
                 )
         );
+
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateExpense(@RequestBody @Valid ExpenseRequest expenseRequest, @PathVariable UUID id){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponse<>(
+                        "Expense Update successfully.",
+                        expenseService.updateExpense(expenseRequest,id),
+                        HttpStatus.OK,
+                        LocalDateTime.now()
+                )
+        );
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteExpenseById(@PathVariable UUID id){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new org.kps_group2.spring_mini_project.model.appUserModel.Response.ApiResponse<>(
+                        "The category has been successfully removed.",
+                        expenseService.deleteExpenseById(id),
+                        HttpStatus.OK,
+                        LocalDateTime.now()
+                )
+        );
+    }
+
 
 
 }

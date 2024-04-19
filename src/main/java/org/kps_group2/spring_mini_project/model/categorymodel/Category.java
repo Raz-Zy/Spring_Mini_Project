@@ -7,15 +7,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.kps_group2.spring_mini_project.model.Users;
+import org.kps_group2.spring_mini_project.model.appUserModel.Response.AppUserRespond;
+import org.kps_group2.spring_mini_project.model.dto.AppUser;
+import org.kps_group2.spring_mini_project.model.dto.Response.UserResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
-    private Integer categoryId;
+    private UUID categoryId;
     private String name;
     private String description;
-    private Users users;
+    private AppUserRespond user;
 }

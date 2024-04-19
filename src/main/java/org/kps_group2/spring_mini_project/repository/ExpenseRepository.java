@@ -6,37 +6,42 @@ import org.apache.ibatis.annotations.*;
 import org.kps_group2.spring_mini_project.model.Expense;
 import org.kps_group2.spring_mini_project.model.dto.Request.ExpenseRequest;
 import org.kps_group2.spring_mini_project.model.dto.Response.CategoryResponse;
-import org.kps_group2.spring_mini_project.model.dto.Response.ExpenseResponse;
 import org.kps_group2.spring_mini_project.model.dto.Response.UserResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper
 public interface ExpenseRepository {
 
 
-    @Select("SELECT * FROM expenses OFFSET #{offset} LIMIT #{limit}")
+    @Select("""
+        SELECT * 
+        FROM expenses
+        ORDER BY ${sortBy} ${orderByStr}
+        LIMIT #{limit} OFFSET #{offset}
+    """)
     @Results(id = "expenseMapper", value = {
             @Result(property = "expenseId", column = "expense_id"),
             @Result(property = "amount", column = "amount"),
             @Result(property = "description", column = "description"),
             @Result(property = "datetime", column = "date"),
-            @Result(property = "category", column = "user_id",
+            @Result(property = "category", column = "category_id",
                     one = @One(select = "getCategoryById")),
             @Result(property = "user", column = "user_id",
                     one = @One(select = "getUserById"))
     })
-    List<ExpenseResponse> getAllExpense(Integer offset, Integer limit);
+    List<Expense> getAllExpense(Integer offset, Integer limit, String sortBy, String orderByStr);
 
     @Select("""
         SELECT category_id, name, description
         FROM categories
-        WHERE user_id = #{userId};
+        WHERE category_id = #{categoryId};
     """)
     @Results(id = "categoryMapper", value = {
             @Result(property = "categoryId", column = "category_id")
     })
-    CategoryResponse getCategoryById(Integer userId);
+    CategoryResponse getCategoryById(UUID categoryId);
 
 
     @Select("""
@@ -48,11 +53,11 @@ public interface ExpenseRepository {
             @Result(property = "userId", column = "user_id"),
             @Result(property = "profileImage", column = "profile_image")
     })
-    UserResponse getUserById(Integer userId);
+    UserResponse getUserById(UUID userId);
 
     @Select("SELECT * FROM expenses WHERE expense_id = #{id}")
     @ResultMap("expenseMapper")
-    Expense getAllExpenseById(Integer id);
+    Expense getAllExpenseById(UUID id);
 
 
     @Select("""
@@ -61,5 +66,20 @@ public interface ExpenseRepository {
         RETURNING *;
     """)
     @ResultMap("expenseMapper")
-    ExpenseResponse insertExpense(@Param("expense") ExpenseRequest expenseRequest, Integer userId);
+    Expense insertExpense(@Param("expense") ExpenseRequest expenseRequest, UUID userId);
+
+
+    @Select("""
+        UPDATE expenses SET amount=#{expense.amount},description=#{expense.description},date=#{expense.datetime},category_id=#{expense.categoryId}
+        WHERE expense_id=#{id}
+        RETURNING *;
+    """)
+    @ResultMap("expenseMapper")
+    Expense updateExpense(@Param("expense") ExpenseRequest expenseRequest, UUID id);
+    @Select("""
+         DELETE FROM expenses WHERE expense_id=#{id}
+         RETURNING *;
+    """)
+    @ResultMap("expenseMapper")
+    void deleteExpenseById(UUID id);
 }
